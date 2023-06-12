@@ -1,0 +1,83 @@
+struct Address {
+    let cityName: String
+    let streetName: String
+    let numberHouse: Int
+    let numberFloor: Int
+    let numberFlat: Int
+}
+
+class Human {
+    let id: Int
+    let name: String?
+    let surname: String?
+    let age: Int?
+    let address: Address?
+    
+    static func randomWord(lenght: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+var string = ""
+        for _ in 0..<lenght {
+            if let letter = letters.randomElement() {
+                string += String(letter)
+            }
+        }
+        return string
+        
+    }
+    
+    init (id: Int, name: String?, surname: String?, age: Int?, address: Address?) {
+        self.id = id
+        self.name = name
+        self.surname = surname
+        self.age = age
+        self.address = address
+    }
+    
+    init (id: Int) {
+        
+       
+        self.id = id
+        self.name = Int.random(in: 0...9) < 3 ? nil : Self.randomWord(lenght: .random(in: 0...20))
+        self.surname = Int.random(in: 0...9) < 3 ? nil : Self.randomWord(lenght: .random(in: 0...20))
+        self.age = Int.random(in: 0...9) < 3 ? nil : .random(in: 0...100)
+        self.address = Int.random(in: 0...9) < 3 ? nil : Address(cityName: Self.randomWord(lenght: .random(in: 0...50)), streetName: Self.randomWord(lenght: .random(in: 0...50)), numberHouse: .random(in: 0...100), numberFloor: .random(in: 0...100), numberFlat: .random(in: 0...100))
+        
+       
+        
+    }
+}
+
+class Generator {
+    var N: Int
+    var humans = [Human]()
+    init (N: Int) {
+        self.N = N
+    }
+    
+    func generate() {
+        for i in 0..<N {
+            humans.append(Human(id: i))
+            }
+        }
+}
+
+class Handler {
+    func handle (humans: [Human]) {
+        for human in humans {
+            if human.name == nil || human.surname == nil || human.age == nil || human.address == nil {
+                print ("Экземпляр \(human.id) имеет пустые поля: ")
+            } else {continue}
+            if human.name == nil {print("name")}
+            if human.surname == nil {print("surname")}
+            if human.age == nil {print("age")}
+            if human.address == nil {print("address")}
+        }
+    }
+}
+
+let generator = Generator(N: 10)
+generator.generate()
+
+let handler = Handler()
+
+handler.handle(humans: generator.humans)
